@@ -39,7 +39,12 @@ func (r redisFileRepo) CheckAndStoreUniqueID(ctx context.Context, id string, ttl
 }
 
 func (r redisFileRepo) DeleteID(ctx context.Context, id string) error {
-	return r.client.Del(ctx, r.generateKey(id, prefix)).Err()
+	err := r.client.Del(ctx, r.generateKey(id, prefix)).Err()
+	if err != nil {
+		return errors.Wrap(err, "DeleteID")
+	}
+
+	return nil
 }
 
 func (r redisFileRepo) generateKey(id, prefix string) string {
