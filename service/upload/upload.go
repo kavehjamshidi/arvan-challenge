@@ -9,6 +9,7 @@ import (
 	contract4 "github.com/kavehjamshidi/arvan-challenge/service/upload/contract"
 	"github.com/kavehjamshidi/arvan-challenge/utils"
 	"github.com/pkg/errors"
+	"time"
 )
 
 const (
@@ -34,7 +35,7 @@ func NewUploadService(
 }
 
 func (us uploadService) UploadFile(ctx context.Context, file domain.File) error {
-	err := us.fileRepo.CheckAndStoreUniqueID(ctx, file.FileID, fileIDTTLSeconds)
+	err := us.fileRepo.CheckAndStoreUniqueID(ctx, file.FileID, fileIDTTLSeconds*time.Second)
 	if err != nil {
 		if errors.Is(err, utils.ErrFileIDAlreadyExists) {
 			return errors.Wrap(err, "UploadFile")

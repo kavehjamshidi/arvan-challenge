@@ -23,10 +23,10 @@ func NewRedisFileRepository(client *redis.Client) contract.FileRepository {
 	return redisFileRepo{client: client}
 }
 
-func (r redisFileRepo) CheckAndStoreUniqueID(ctx context.Context, id string, ttlSeconds int) error {
+func (r redisFileRepo) CheckAndStoreUniqueID(ctx context.Context, id string, ttl time.Duration) error {
 	args := redis.SetArgs{
 		Mode: "NX",
-		TTL:  time.Duration(ttlSeconds) * time.Second,
+		TTL:  ttl,
 	}
 
 	err := r.client.SetArgs(ctx, r.generateKey(id, prefix), 1, args).Err()
