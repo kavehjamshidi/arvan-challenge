@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7.0.8-alpine
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  postgres:
+    image: postgres:15.4-alpine3.18
+    environment:
+      POSTGRES_PASSWORD: very-secret
+      POSTGRES_DB: arvan
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      REDIS_ADDRESS: redis:6379
+      TEST_REDIS_ADDRESS: redis:6379
+      DB_URI: "postgres://postgres:very-secret@postgres:5432/arvan?sslmode=disable"
+      SERVER_ADDRESS: ":4000"
+    ports:
+      - "4000:4000"
