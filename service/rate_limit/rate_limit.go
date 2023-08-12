@@ -36,11 +36,11 @@ func (rs rateLimitService) CheckRateLimit(ctx context.Context, userID string) er
 			return errors.Wrap(err, "CheckRateLimit")
 		}
 
-		rs.rateLimiter.SetUserLimit(ctx, userID, limit)
-	}
+		if limit == 0 {
+			return errors.Wrap(utils.ErrUserRateLimitNotSet, "CheckRateLimit")
+		}
 
-	if limit == 0 {
-		return errors.Wrap(utils.ErrUserRateLimitNotSet, "CheckRateLimit")
+		rs.rateLimiter.SetUserLimit(ctx, userID, limit)
 	}
 
 	allowed, err := rs.rateLimiter.IsAllowed(ctx, userID, limit)
