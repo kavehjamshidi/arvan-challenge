@@ -1,11 +1,15 @@
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS user_usage
 (
-    user_id         VARCHAR(128) NOT NULL PRIMARY KEY,
-    quota           BIGINT       NOT NULL,
-    quota_usage     BIGINT       NOT NULL DEFAULT 0,
-    start_timestamp BIGINT       NOT NULL,
-    end_timestamp   BIGINT       NOT NULL,
+    id          BIGSERIAL    NOT NULL PRIMARY KEY,
+    user_id     VARCHAR(128) NOT NULL UNIQUE,
+    quota       BIGINT       NOT NULL,
+    quota_usage BIGINT       NOT NULL DEFAULT 0,
+    start_date  TIMESTAMP    NOT NULL,
+    end_date    TIMESTAMP    NOT NULL,
+    created_at  TIMESTAMP    NOT NULL,
+    updated_at  TIMESTAMP    NOT NULL,
+    deleted_at  TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users (id)
 );

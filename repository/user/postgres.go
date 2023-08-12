@@ -7,6 +7,7 @@ import (
 	"github.com/kavehjamshidi/arvan-challenge/utils"
 	"github.com/pkg/errors"
 	"log"
+	"time"
 )
 
 type pgUserRepo struct {
@@ -15,6 +16,20 @@ type pgUserRepo struct {
 
 func NewPostgresUserRepository(db *sql.DB) contract.UserRepository {
 	return pgUserRepo{db: db}
+}
+
+func (p pgUserRepo) ResetUsage(ctx context.Context, end time.Time) error {
+	query := `UPDATE user_usage SET quota_usage = 0, start_date = end_date,
+                      end_date = end_date + INTERVAL '1 month'
+WHERE end_date <= $1;`
+
+	_, err := p.db.ExecContext(ctx, query, end)
+	if err != nil {
+		log.Println(err)
+		return errors.Wrap(err, "ResetUserQuota")
+	}
+
+	return nil
 }
 
 func (p pgUserRepo) GetUserRateLimit(ctx context.Context, userID string) (int, error) {

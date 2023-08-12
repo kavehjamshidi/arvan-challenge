@@ -31,7 +31,9 @@ func (r redisFileRepo) CheckAndStoreUniqueID(ctx context.Context, id string, ttl
 
 	err := r.client.SetArgs(ctx, r.generateKey(id, prefix), 1, args).Err()
 	if err != nil {
-		log.Println(err)
+		if err != redis.Nil {
+			log.Println(err)
+		}
 		return errors.Wrap(utils.ErrFileIDAlreadyExists, "CheckAndStoreUniqueID")
 	}
 

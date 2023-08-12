@@ -18,3 +18,15 @@ func Setup() *redis.Client {
 
 	return redisClient
 }
+
+func TestSetup() *redis.Client {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     viper.GetString("TEST_REDIS_ADDRESS"),
+		Password: viper.GetString("TEST_REDIS_PASSWORD"),
+	})
+	if err := redisClient.Ping(context.Background()).Err(); err != nil {
+		log.Panicf("could not connect to redis: %v\n", err)
+	}
+
+	return redisClient
+}
