@@ -33,11 +33,10 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:4000/upload",
+					"raw": "{{server_address}}/upload",
 					"host": [
-						"localhost"
+						"{{server_address}}"
 					],
-					"port": "4000",
 					"path": [
 						"upload"
 					]
