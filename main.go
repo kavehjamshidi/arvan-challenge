@@ -25,6 +25,7 @@ func main() {
 	viper.AutomaticEnv()
 	viper.ReadInConfig()
 
+	viper.SetDefault("ENV", "dev")
 	viper.SetDefault("SERVER_ADDRESS", ":4000")
 	viper.SetDefault("DB_URI", "postgres://postgres:very-secret@127.0.0.1:5432/arvan?sslmode=disable")
 	viper.SetDefault("REDIS_ADDRESS", "127.0.0.1:6379")

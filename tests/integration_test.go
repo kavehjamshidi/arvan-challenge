@@ -46,7 +46,7 @@ func (i *integrationTestSuite) SetupSuite() {
 	viper.AutomaticEnv()
 	viper.ReadInConfig()
 
-	viper.SetDefault("TEST_SERVER_ADDRESS", ":4001")
+	viper.SetDefault("ENV", "test")
 	viper.SetDefault("TEST_DB_URI", "postgres://postgres:very-secret@127.0.0.1:5432/arvan?sslmode=disable")
 	viper.SetDefault("TEST_REDIS_ADDRESS", "127.0.0.1:6379")
 	viper.SetDefault("DB_MIGRATION_TABLE", "migrations")
