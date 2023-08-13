@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "969f986e-e043-4f92-b02b-d1c6fc5712d4",
+		"name": "arvan challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12970280"
+	},
+	"item": [
+		{
+			"name": "upload",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "user-id",
+						"value": "123456",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "file_id",
+							"value": "abcdef",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4000/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"upload"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "server_address",
+			"value": "localhost:4000"
+		}
+	]
+}
