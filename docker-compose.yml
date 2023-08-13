@@ -28,6 +28,7 @@ services:
       dockerfile: Dockerfile
       context: .
     environment:
+      ENV: dev
       REDIS_ADDRESS: redis:6379
       TEST_REDIS_ADDRESS: redis:6379
       DB_URI: "postgres://postgres:very-secret@postgres:5432/arvan?sslmode=disable"

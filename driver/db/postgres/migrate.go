@@ -39,3 +39,12 @@ func TestMigrate(db *sql.DB) {
 	}
 	log.Printf("applied %d migrations!\n", n)
 }
+
+func Seed(db *sql.DB) {
+	db.Exec(`INSERT INTO users(id, rate_limit, quota, created_at, updated_at)
+VALUES('123456', 2, 10, NOW(), NOW()) ON CONFLICT (id) DO UPDATE SET rate_limit = 2;`)
+
+	db.Exec(`INSERT INTO user_usage(user_id, quota, quota_usage,
+                       start_date, end_date, created_at, updated_at) 
+VALUES('123456', 10, 0, NOW(), NOW() + interval '1 month', NOW(), NOW()) ON CONFLICT (user_id) DO UPDATE SET quota_usage = 0;`)
+}

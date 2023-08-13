@@ -35,6 +35,11 @@ func main() {
 
 	postgres.Migrate(pg)
 
+	env := viper.GetString("ENV")
+	if env == "dev" {
+		postgres.Seed(pg)
+	}
+
 	redisClient := redis.Setup()
 	defer redisClient.Close()
 
